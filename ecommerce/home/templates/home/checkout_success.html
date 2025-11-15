@@ -1,48 +1,40 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Success</title>
+    <title>Order Successful</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #e8f0fe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .success-box {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .btn-home {
+            background: #4f46e5;
+            color: white;
+            font-weight: bold;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+    </style>
 </head>
-<body class="bg-light">
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">MyShop</a>
+<body>
+    <div class="success-box">
+        <h2>🎉 Order Placed Successfully!</h2>
+        <p>Thank you for shopping with us.</p>
+        <a href="{% url 'home' %}" class="btn-home">Back to Home</a>
     </div>
-</nav>
-
-<div class="container text-center mt-5">
-    <div class="card shadow p-4 mx-auto" style="max-width: 600px;">
-        <div class="mb-3">
-            <img src="{% static 'images/success.png' %}" alt="Success" width="100">
-        </div>
-        <h2 class="text-success">🎉 Order Placed Successfully!</h2>
-        <p class="text-muted mt-3">
-            Thank you for shopping with <strong>MyShop</strong>.<br>
-            Your order has been placed and will be delivered soon.
-        </p>
-
-        <hr>
-        <h5>Order Summary</h5>
-        <ul class="list-group mb-3 text-start">
-            {% for product in products %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ product.name }}
-                    <span>₹{{ product.price }} × {{ cart_items|get_item:product.id }}</span>
-                </li>
-            {% endfor %}
-        </ul>
-        <h4>Total Paid: ₹{{ total_price }}</h4>
-
-        <div class="mt-4">
-            <a href="{% url 'home' %}" class="btn btn-primary">Continue Shopping</a>
-        </div>
-    </div>
-</div>
-
 </body>
 </html>

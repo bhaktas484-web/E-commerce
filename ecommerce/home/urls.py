@@ -11,9 +11,14 @@ urlpatterns = [
     path('remove-from-cart/<int:product_id>/', views.remove_from_cart, name='remove_from_cart'),
     path('increase/<int:product_id>/', views.increase_quantity, name='increase_quantity'),
     path('decrease/<int:product_id>/', views.decrease_quantity, name='decrease_quantity'),
+    #checkout
     path('checkout/', views.checkout, name='checkout'),
+    #checkout success
+    path('checkout/success/', views.checkout_success, name='checkout_success'),
        # Authentication
     path('login/', auth_views.LoginView.as_view(template_name='home/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
+    #searching
+    path('search/', views.search, name='search'),
 ]

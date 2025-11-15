@@ -4,6 +4,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import login
 
 # Home page view
 def home(request):
@@ -33,20 +35,72 @@ def cart(request):
         'total_price': total_price
     })
 
-
 # Add to cart view
 def add_to_cart(request, product_id):
     cart = request.session.get('cart', {})
-    cart[str(product_id)] = cart.get(str(product_id), 0) + 1
+    product_id = str(product_id)
+
+    # Add item to cart
+    if product_id in cart:
+        cart[product_id] += 1
+    else:
+        cart[product_id] = 1
+
     request.session['cart'] = cart
     return redirect('cart')
+
+
 # Remove from cart view
 def remove_from_cart(request, product_id):
     cart = request.session.get('cart', {})
-    if str(product_id) in cart:
-        del cart[str(product_id)]
-        request.session['cart'] = cart
-    return redirect('cart') 
+    product_id = str(product_id)
+
+    if product_id in cart:
+        del cart[product_id]
+
+    request.session['cart'] = cart
+    return redirect('cart')
+
+
+# Cart view
+from .models import Product
+
+from .models import Product
+
+def cart(request):
+    session_cart = request.session.get('cart', {})
+    cart_items = []
+    total_price = 0
+
+    for product_id, quantity in session_cart.items():
+
+        if not product_id.isdigit():  
+            # SKIP invalid or empty keys
+            continue  
+
+        try:
+            product = Product.objects.get(id=int(product_id))
+        except Product.DoesNotExist:
+            continue
+
+        item_total = product.price * quantity
+        total_price += item_total
+
+        cart_items.append({
+            'product': product,
+            'quantity': quantity,
+            'total': item_total
+        })
+
+    discount = round(total_price * 0.05, 2)
+    grand_total = total_price - discount
+
+    return render(request, "home/cart.html", {
+        "cart_items": cart_items,
+        "total_price": total_price,
+        "discount": discount,
+        "grand_total": grand_total,
+    })
 
 # Increase quantity
 def increase_quantity(request, product_id):
@@ -74,24 +128,50 @@ def decrease_quantity(request, product_id):
 def checkout(request):
     cart = request.session.get('cart', {})
     products = Product.objects.filter(id__in=cart.keys())
-    total_price = 0
-    for product in products:
-        total_price += product.price * cart[str(product.id)]
 
-    return render(request, 'home/checkout.html', {
-        'products': products,
-        'cart_items': cart,
-        'total_price': total_price
+    total_price = sum(product.price * cart[str(product.id)] for product in products)
+
+    if request.method == "POST":
+        name = request.POST.get('name')
+        address = request.POST.get('address')
+        payment_method = request.POST.get('payment_method')
+
+
+        # Clear cart after placing order
+        request.session['cart'] = {}
+
+        # Redirect to success page
+        return redirect('checkout_success')
+
+    return render(request, "home/checkout.html", {
+        "products": products,
+        "cart_items": cart,
+        "total_price": total_price,
     })
+def checkout_success(request):
+    return render(request, "home/checkout_success.html")
+
 
 def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')  # After registration, go to login page
-    else:
-        form = UserCreationForm()
-    return render(request, 'home/register.html', {'form': form})
+    if request.method == "POST":
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
 
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
 
+        login(request, user)  # Auto login
+        return redirect("home")  # Redirect to home page
+
+    # IMPORTANT: this return must NOT be on same line as "if"
+    return render(request, "register.html")
+
+#searching
+def search(request):
+    query = request.GET.get("query", "")
+    results = Product.objects.filter(name__icontains=query)
+    return render(request, "home/search.html", {"results": results, "query": query})
