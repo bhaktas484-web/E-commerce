@@ -193,6 +193,7 @@ def contact(request):
             message=msg
         )
 
+
         messages.success(request, "Your message has been sent successfully!")
         return redirect("contact")
 
