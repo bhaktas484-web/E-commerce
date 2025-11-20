@@ -168,10 +168,32 @@ def register(request):
         return redirect("home")  # Redirect to home page
 
     # IMPORTANT: this return must NOT be on same line as "if"
-    return render(request, "register.html")
+    return render(request, "home/register.html")
 
 #searching
 def search(request):
     query = request.GET.get("query", "")
     results = Product.objects.filter(name__icontains=query)
     return render(request, "home/search.html", {"results": results, "query": query})
+
+#contacts view
+from django.shortcuts import render, redirect
+from .models import ContactMessage
+from django.contrib import messages
+
+def contact(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        msg = request.POST.get("message")
+
+        ContactMessage.objects.create(
+            name=name,
+            email=email,
+            message=msg
+        )
+
+        messages.success(request, "Your message has been sent successfully!")
+        return redirect("contact")
+
+    return render(request, "home/contact.html")

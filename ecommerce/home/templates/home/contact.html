@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - E-Commerce</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8f8f8;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 40px 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .contact-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .contact-info, .contact-form {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        .contact-info h3, .contact-form h3 {
+            margin-bottom: 10px;
+            color: #111;
+        }
+
+        .contact-info p {
+            margin: 8px 0;
+            color: #444;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #999;
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 120px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #111;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        /* Map Section */
+        .map {
+            width: 100%;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        footer {
+            background: #111;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Contact Us</h1>
+    </header>
+
+    <section class="container">
+        <h2>Get in Touch</h2>
+
+        <div class="contact-box">
+            <!-- Contact info -->
+            <div class="contact-info">
+                <h3>Contact Details</h3>
+                <p><strong>Email:</strong> support@ecommerce.com</p>
+                <p><strong>Phone:</strong> +91 98765 43210</p>
+                <p><strong>Address:</strong> Kolkata, West Bengal, India</p>
+                <p><strong>Working Hours:</strong> 9 AM – 8 PM</p>
+            </div>
+
+            <!-- Contact form -->
+            <div class="contact-form">
+                <h3>Send a Message</h3>
+
+                <form>
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Email Address" required>
+                    <input type="text" placeholder="Subject" required>
+
+                    <textarea placeholder="Write your message..." required></textarea>
+
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div class="map">
+            <h2>Our Location</h2>
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d184387.2804189867!2d88.21951330201513!3d22.53556494301243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0277a1b9688441%3A0xdccb2b4868668a2e!2sKolkata%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1695640123456"
+                width="100%" height="350" style="border:0;" allowfullscreen loading="lazy">
+            </iframe>
+        </div>
+    </section>
+
+    <footer>
+        © 2025 E-Commerce Website | All Rights Reserved
+    </footer>
+
+</body>
+</html>

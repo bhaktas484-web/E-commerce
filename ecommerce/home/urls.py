@@ -21,4 +21,5 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     #searching
     path('search/', views.search, name='search'),
+path('contact/', views.contact, name='contact'),
 ]
